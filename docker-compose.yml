@@ -36,6 +36,6 @@ services:
     ports:
       - 54320:5432 #SQLと違うので注意
     volumes:
-      - ./docker-config/postgres/data:/var/lib/postgresql/data
-      - ./docker-config/postgres/logs:/var/log
+      - ./docker-config/pgsql/data:/var/lib/postgresql/data
+      - ./docker-config/pgsql/logs:/var/log
     # restart: always
