@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'bio',
+        'avatar_url',
+        'image_id',
     ];
 
     /**
@@ -44,5 +47,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // 投稿リレーション
+    public function posts()
+    {
+        return $this->hasMany(\App\Models\Post::class);
+    }
+
+    // 画像リレーション
+    public function image()
+    {
+        return $this->belongsTo(\App\Models\Image::class);
+    }
+
+    // スキルリレーション
+    public function skills()
+    {
+        return $this->belongsToMany(\App\Models\Skill::class);
     }
 }
