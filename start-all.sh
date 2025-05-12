@@ -18,7 +18,7 @@ fi
 echo "Dockerコンテナを起動します..."
 docker compose up -d
 
-# webApp用コンテナ名を自動取得してnpm install & npm run devを実行
+# webApp用コンテナ名を自動取得してcomposer install, npm install & npm run devを実行
 echo "webApp用コンテナでcomposer install, npm install & npm run devを自動実行します..."
 WEBAPP_CONTAINER=$(docker ps --filter "name=web" --format "{{.Names}}" | head -n1)
 if [ -n "$WEBAPP_CONTAINER" ]; then
