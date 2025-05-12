@@ -6,8 +6,8 @@
 5 silly config load:file:/usr/local/etc/npmrc
 6 verbose title npm install
 7 verbose argv "install"
-8 verbose logfile logs-max:10 dir:/var/www/.npm/_logs/2025-05-11T03_49_23_998Z-
-9 verbose logfile /var/www/.npm/_logs/2025-05-11T03_49_23_998Z-debug-0.log
+8 verbose logfile logs-max:10 dir:/var/www/.npm/_logs/2025-05-12T08_20_32_309Z-
+9 verbose logfile /var/www/.npm/_logs/2025-05-12T08_20_32_309Z-debug-0.log
 10 silly logfile start cleaning logs, removing 1 files
 11 silly packumentCache heap:2197815296 maxSize:549453824 maxEntrySize:274726912
 12 silly logfile done cleaning log files
@@ -500,7 +500,7 @@
 15 silly audit   'yargs-parser': [ '21.1.1' ],
 15 silly audit   'yocto-queue': [ '0.1.0' ]
 15 silly audit }
-16 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 541ms
+16 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 559ms
 17 silly audit report {}
 18 verbose cwd /var/www
 19 verbose os Linux 5.15.167.4-microsoft-standard-WSL2

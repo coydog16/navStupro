@@ -6,13 +6,7 @@
 5 silly config load:file:/usr/local/etc/npmrc
 6 verbose title npm run dev
 7 verbose argv "run" "dev"
-8 verbose logfile logs-max:10 dir:/var/www/.npm/_logs/2025-05-11T03_49_25_397Z-
-9 verbose logfile /var/www/.npm/_logs/2025-05-11T03_49_25_397Z-debug-0.log
+8 verbose logfile logs-max:10 dir:/var/www/.npm/_logs/2025-05-12T08_20_34_013Z-
+9 verbose logfile /var/www/.npm/_logs/2025-05-12T08_20_34_013Z-debug-0.log
 10 silly logfile start cleaning logs, removing 1 files
 11 silly logfile done cleaning log files
-12 verbose cwd /var/www
-13 verbose os Linux 5.15.167.4-microsoft-standard-WSL2
-14 verbose node v22.15.0
-15 verbose npm  v11.3.0
-16 verbose exit 1
-17 verbose code 1
