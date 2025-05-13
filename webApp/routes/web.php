@@ -32,4 +32,6 @@ Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 // 投稿一覧表示
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
-require __DIR__.'/auth.php';
+foreach (['auth.php', 'post.php'] as $file) {
+    require __DIR__ . '/' . $file;
+}
