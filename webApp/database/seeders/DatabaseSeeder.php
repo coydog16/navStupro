@@ -16,6 +16,13 @@ class DatabaseSeeder extends Seeder
         // テストユーザーを5人作成
         User::factory(5)->create();
 
+        // 明示的なテストユーザーを追加
+        User::factory()->create([
+            'name' => 'テストユーザー',
+            'email' => 'test@test.com',
+            'password' => bcrypt('password'),
+        ]);
+
         // 既存のサンプルユーザーも残す場合は以下を有効化
         // User::factory()->create([
         //     'name' => 'Test User',
