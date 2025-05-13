@@ -1,45 +1,39 @@
 import React from 'react';
 import { Inertia } from '@inertiajs/inertia';
+import BottomNav from '@/Components/BottomNav';
+import ProfileBar from '@/Components/ProfileBar';
+import SwitchNav from '@/Components/SwitchNav';
 
 interface AppLayoutProps {
   user: { id: number; name: string; avatar_url?: string };
+  postDates?: string[]; // 投稿カレンダー用
   children: React.ReactNode;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ user, children }) => {
+const AppLayout: React.FC<AppLayoutProps> = ({ user, postDates = [], children }) => {
+  // SwitchNavのタブ状態をAppLayoutで管理
+  const [tab, setTab] = React.useState<'self' | 'all'>(user ? 'self' : 'all');
+  const handleTabChange = (tab: 'self' | 'all') => {
+    setTab(tab);
+    if (tab === 'self') {
+      window.location.href = '/dashboard';
+    } else {
+      window.location.href = '/posts';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* ナビゲーションバー */}
-      <nav className="flex items-center justify-between px-6 py-3 bg-white shadow">
-        <div className="flex items-center">
-          {/* 丸型プロフィールアイコン */}
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400 mr-3 bg-gray-200 flex items-center justify-center">
-            {user.avatar_url ? (
-              <img src={user.avatar_url} alt="avatar" className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-lg font-bold text-blue-500">{user.name.charAt(0)}</span>
-            )}
-          </div>
-          <span className="font-semibold text-gray-700">{user.name}</span>
-        </div>
-        <div className="flex space-x-4">
-          <button
-            className="px-4 py-2 rounded hover:bg-blue-100 text-blue-600 font-semibold"
-            onClick={() => Inertia.visit('/dashboard')}
-          >
-            自分の投稿
-          </button>
-          <button
-            className="px-4 py-2 rounded hover:bg-blue-100 text-blue-600 font-semibold"
-            onClick={() => Inertia.visit('/posts')}
-          >
-            みんなの投稿
-          </button>
-        </div>
-      </nav>
+      {/* プロフィールバー（カレンダー・ToDo付き） */}
+      <ProfileBar user={user} postDates={postDates} today="2025-05-13" />
+      {/* 上部アイコンナビ（X風・アイコンのみ） */}
+      <div className="max-w-3xl mx-auto sticky top-0 z-40">
+        <SwitchNav tab={tab} onTabChange={handleTabChange} />
+      </div>
       <main className="pt-6 px-4 max-w-3xl mx-auto">
         {children}
       </main>
+      <BottomNav />
     </div>
   );
 };
