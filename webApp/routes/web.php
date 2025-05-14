@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PostController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,9 +15,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [\App\Http\Controllers\PostController::class, 'myPosts'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,7 +30,6 @@ Route::middleware('auth')->group(function () {
 // ユーザープロフィール表示
 Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
-// 投稿一覧表示
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-
-require __DIR__.'/auth.php';
+foreach (['auth.php', 'post.php'] as $file) {
+    require __DIR__ . '/' . $file;
+}

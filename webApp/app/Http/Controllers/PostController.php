@@ -11,54 +11,34 @@ class PostController extends Controller
     // 投稿一覧表示
     public function index()
     {
-        $posts = Post::with(['user', 'image'])->latest()->get();
+        $user = auth()->user();
+        $posts = Post::with(['user'])->latest()->get();
         return Inertia::render('Post/Index', [
             'posts' => $posts,
             'user' => $user,
         ]);
     }
-
-    // 新規投稿(modal)
-    // public function create()
-    // {
-    //     return Inertia::render('Post/Create');
-    // }
-
+    // 新規投稿
+    public function create()
+    {
+        return Inertia::render('Post/Create');
+    }
     // 投稿保存
     public function store(Request $request)
     {
-        // カスタムメッセージを設定して、バリデーション実行
-        $validator = \Validator::make($request->all(), [
+        $request->validate([
             'content' => 'required|string',
         ], [
-            'content.required' => '投稿内容を入力してください',
+            'content.required' => '何も書かれてないよ！',
             'content.string' => '正しい形式で入力してください'
         ]);
-        
-        // バリデーション失敗時は、エラーをJSONで返す（Inertia対応）
-        if ($validator->fails()) {
-            // withErrorsだとリダイレクトが発生するので、リクエストがXHR/Inertiaの場合は
-            // JSONレスポンスを返す
-            if ($request->wantsJson() || $request->header('X-Inertia')) {
-                return response()->json([
-                    'errors' => $validator->errors(),
-                    'message' => '入力内容に問題があります'
-                ], 422);
-            }
-            return back()->withErrors($validator);
-        }
 
         $post = new Post();
         $post->user_id = auth()->check() ? auth()->id() : 1; // 仮にuser_id=1をデフォルトに（未ログイン時の保険）
         $post->content = $request->input('content');
         $post->save();
 
-        // Inertiaリクエストの場合は成功レスポンスを返す
-        if ($request->wantsJson() || $request->header('X-Inertia')) {
-            return response()->json(['success' => true]);
-        }
-        
-        // 通常のリクエストの場合はダッシュボードにリダイレクト
+        // 投稿後はdashboardにリダイレクト（または同じページに留まる）
         return redirect()->route('dashboard')->with('success', 'Post created successfully.');
     }
     // 自分の投稿一覧

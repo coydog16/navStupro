@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class CreatePostsTable extends Migration {
     public function up() {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id'); // 投稿ID
@@ -17,4 +17,6 @@ return new class extends Migration {
     public function down() {
         Schema::dropIfExists('posts');
     }
-};
+}
+
+return new CreatePostsTable();

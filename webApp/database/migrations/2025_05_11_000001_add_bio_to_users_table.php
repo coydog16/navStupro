@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+class AddBioToUsersTable extends Migration {
     public function up() {
         Schema::table('users', function (Blueprint $table) {
             $table->text('bio')->nullable()->after('password'); // 自己紹介欄
@@ -18,4 +18,6 @@ return new class extends Migration {
             $table->dropColumn(['bio', 'avatar_url', 'image_id']);
         });
     }
-};
+}
+
+return new AddBioToUsersTable();

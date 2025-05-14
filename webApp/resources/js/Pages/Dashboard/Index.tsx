@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import AppLayout from '@/Layouts/AppLayout';
-import PostModal from '@/Components/PostModal';
+import { PostModal } from '@/Components';
 
 interface Post {
   id: number;
@@ -31,17 +31,15 @@ const DashboardIndex: React.FC<DashboardProps> = ({ posts, user }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // フォームが空の場合はフロント側でバリデーション
+    
+    // フロントエンドでのバリデーション追加
     if (!content.trim()) {
-      setErrors({ content: '投稿内容を入力してください' });
+      setErrors({ content: '何も書かれてないよ！' });
       return;
     }
-
+    
     Inertia.post('/posts', { content }, {
-      onError: (err) => {
-        setErrors(err);
-      },
+      onError: (err) => setErrors(err),
       onSuccess: () => {
         setContent('');
         setErrors({});
@@ -80,7 +78,12 @@ const DashboardIndex: React.FC<DashboardProps> = ({ posts, user }) => {
             setContent={setContent}
             errors={errors}
             onSubmit={handleSubmit}
-            onClose={() => setShowModal(false)}
+            onClose={() => {
+              setShowModal(false);
+              setErrors({});  // モーダルを閉じるときにエラーもクリア
+            }}
+            avatar={user?.avatar_url || ''}
+            userName={user?.name || ''}
           />
         )}
         {/* 画面下部ナビゲーションバー（AppLayoutに移動済み） */}
