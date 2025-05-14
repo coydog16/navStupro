@@ -4,3 +4,4 @@ webApp/.npm/_cacache/
 # NPM Cache
 webApp/.npm/
 
+node_modules/
