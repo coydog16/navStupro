@@ -28,6 +28,9 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required|string',
+        ], [
+            'content.required' => '何も書かれてないよ！',
+            'content.string' => '正しい形式で入力してください'
         ]);
 
         $post = new Post();

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
 import AppLayout from '@/Layouts/AppLayout';
+import { PostModal } from '@/Components';
 
 interface Post {
   id: number;
@@ -30,6 +31,13 @@ const DashboardIndex: React.FC<DashboardProps> = ({ posts, user }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // フロントエンドでのバリデーション追加
+    if (!content.trim()) {
+      setErrors({ content: '何も書かれてないよ！' });
+      return;
+    }
+    
     Inertia.post('/posts', { content }, {
       onError: (err) => setErrors(err),
       onSuccess: () => {
@@ -65,28 +73,18 @@ const DashboardIndex: React.FC<DashboardProps> = ({ posts, user }) => {
         >＋</button>
         {/* 投稿モーダル */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md shadow-xl relative">
-              <button
-                className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 text-2xl"
-                onClick={() => setShowModal(false)}
-                aria-label="閉じる"
-              >×</button>
-              <h2 className="text-xl font-bold mb-4">新規投稿</h2>
-              <form onSubmit={handleSubmit}>
-                <textarea
-                  className="w-full border rounded p-2 mb-2"
-                  placeholder="本文"
-                  value={content}
-                  onChange={e => setContent(e.target.value)}
-                  rows={4}
-                  autoFocus
-                />
-                {errors.content && <div className="text-red-500 text-sm mb-2">{errors.content}</div>}
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">投稿する</button>
-              </form>
-            </div>
-          </div>
+          <PostModal
+            content={content}
+            setContent={setContent}
+            errors={errors}
+            onSubmit={handleSubmit}
+            onClose={() => {
+              setShowModal(false);
+              setErrors({});  // モーダルを閉じるときにエラーもクリア
+            }}
+            avatar={user?.avatar_url || ''}
+            userName={user?.name || ''}
+          />
         )}
         {/* 画面下部ナビゲーションバー（AppLayoutに移動済み） */}
         {/* <BottomNav onTabChange={handleTabChange} /> */}
